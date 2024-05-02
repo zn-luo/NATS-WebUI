@@ -3,7 +3,7 @@ use rusqlite::{params, Connection, Error, Result};
 use serde_json;
 
 pub fn get_db_conn() -> rusqlite::Result<Connection> {
-    let path = "./sqlite.db";
+    let path = "/data/sqlite.db";
     Connection::open(&path)
 }
 
