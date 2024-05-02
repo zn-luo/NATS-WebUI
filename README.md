@@ -1,3 +1,15 @@
+This fork fixes some issues with the original release and produces a smallish alpine-based image.
+To persist the settings, mount a volume to /data. For example:
+
+```
+mkdir ./nats-webui && chown 1000:1000
+docker run --rm -p 8080:80 -v "${PWD}/nats-webui:/data" ghcr.io/thielj/nats-webui:latest
+```
+
+Original README follows...
+
+---
+
 <p align="center">
   <img src="/screenshots/Logo.png" alt="NATS WebUI Logo"/>
 </p>
