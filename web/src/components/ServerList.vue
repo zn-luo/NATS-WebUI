@@ -146,7 +146,6 @@ export default {
   mounted () {
     let protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     this.socket = new ReconnectingWebSocket(protocol + '//' + window.location.host + '/api/state/ws')
-    this.socket = new ReconnectingWebSocket('ws://' + window.location.host + '/api/state/ws')
     this.socket.addEventListener('message', function (ev) {
       let msg = JSON.parse(ev.data)
       this.serversMap[msg.server_id].varz = msg.varz
