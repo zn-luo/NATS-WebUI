@@ -12,8 +12,8 @@ FROM node:lts as frontend-builder
 WORKDIR /usr/src/NATS-WebUI
 COPY . .
 WORKDIR /usr/src/NATS-WebUI/web
-RUN npm i
-RUN npm update
+RUN npm install --legacy-peer-deps
+RUN npm update --legacy-peer-deps
 RUN npm run build --release
 
 FROM alpine:3.18

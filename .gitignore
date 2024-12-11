@@ -2,3 +2,5 @@
 .idea/*
 /sqlite.db
 /sqlite.db.BAK
+*~
+*.bak
