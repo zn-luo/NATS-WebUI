@@ -28,5 +28,5 @@ RUN apk update && apk upgrade && \
 COPY --from=backend-builder  /usr/src/NATS-WebUI/target/release/nats-webui /opt/nats/nats-webui
 COPY --from=frontend-builder /usr/src/NATS-WebUI/web/dist/                 /opt/nats/web/dist
 USER 1000:1000
-EXPOSE 80
+EXPOSE 8600
 ENTRYPOINT ["/opt/nats/nats-webui"]

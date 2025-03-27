@@ -206,8 +206,8 @@ async fn main() -> rusqlite::Result<()> {
         .or(client_subscribe_route)
         .with(warp::log("web"));
 
-    debug!("Starting server on 0.0.0.0:80");
-    warp::serve(route).run(([0, 0, 0, 0], 80)).await;
+    debug!("Starting server on 0.0.0.0:8600");
+    warp::serve(route).run(([0, 0, 0, 0], 8600)).await;
 
     Ok(())
 }
