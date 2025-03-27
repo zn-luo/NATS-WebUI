@@ -41,7 +41,7 @@
     </el-container>
     
     <el-footer style="border-top: solid 1px #e6e6e6; height: 24px; text-align: right; vertical-align: middle; font-size: x-small; line-height: 24px;">
-      <font-awesome-icon :icon="['fas', 'copyright']"/> sphqxe, thielj <a href="https://github.com/zn-luo/NATS-WebUI">github.com/zn-luo/NATS-WebUI</a>
+      <font-awesome-icon :icon="['fas', 'copyright']"/> sphqxe, thielj, zn-luo <a href="https://github.com/zn-luo/NATS-WebUI">github.com/zn-luo/NATS-WebUI</a>
     </el-footer>
   </el-container>
 </template>
