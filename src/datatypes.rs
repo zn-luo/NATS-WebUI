@@ -97,7 +97,7 @@ pub struct Publication {
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq)]
 pub struct ServerVarz {
     pub server_id: String,
-    pub server_name: String,
+    pub server_name: Option<String>,
     pub version: String,
     pub proto: i32,
     pub go: String,
