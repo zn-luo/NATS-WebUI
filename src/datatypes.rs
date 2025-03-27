@@ -149,7 +149,7 @@ pub struct ServerVarz {
     pub config_load_time: String,
     #[serde(default)]
     pub system_account: Option<String>,
-    pub slow_consumer_stats: SlowConsumerStats,
+    pub slow_consumer_stats: Option<SlowConsumerStats>,
     #[serde(default)]
     pub git_commit: Option<String>,
 }
