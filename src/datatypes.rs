@@ -125,7 +125,7 @@ pub struct ServerVarz {
     pub websocket: Option<serde_json::Value>,
     #[serde(default)]
     pub jetstream: Option<JetstreamConfig>,
-    pub tls_timeout: i64,
+    pub tls_timeout: f64,
     pub write_deadline: i64,
     pub start: String,
     pub now: String,
@@ -163,7 +163,7 @@ pub struct ClusterInfo {
     #[serde(default)]
     pub auth_timeout: Option<i64>,
     #[serde(default)]
-    pub tls_timeout: Option<i64>,
+    pub tls_timeout: Option<f64>,
     #[serde(default)]
     pub tls_required: Option<bool>,
     #[serde(default)]
@@ -178,7 +178,7 @@ pub struct ClusterInfo {
 pub struct MqttConfig {
     pub host: String,
     pub port: u16,
-    pub tls_timeout: i64,
+    pub tls_timeout: f64,
 }
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq)]
