@@ -132,7 +132,7 @@ pub struct ServerVarz {
     pub uptime: String,
     pub mem: i64,
     pub cores: i32,
-    pub gomaxprocs: i32,
+    pub gomaxprocs: Option<i32>,
     pub cpu: f64,
     pub connections: i64,
     pub total_connections: i64,
