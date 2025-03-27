@@ -17,9 +17,9 @@ RUN npm update --legacy-peer-deps
 RUN npm run build --release
 
 FROM alpine:3.18
-MAINTAINER Jens Thiel <thielj@gmail.com>
+LABEL maintainer="zn-luo"
 WORKDIR /opt/nats
-VOLUME /data
+#VOLUME /data
 RUN apk update && apk upgrade && \
     apk add --no-cache libgcc libssl1.1 libcrypto1.1 ca-certificates sqlite-libs && \
     update-ca-certificates && \
