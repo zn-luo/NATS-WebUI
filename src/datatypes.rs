@@ -138,7 +138,7 @@ pub struct ServerVarz {
     pub total_connections: i64,
     pub routes: i64,
     pub remotes: i64,
-    pub leafnodes: i64,
+    pub leafnodes: Option<i64>,
     pub in_msgs: i64,
     pub out_msgs: i64,
     pub in_bytes: i64,
