@@ -1,12 +1,76 @@
-This fork fixes some issues with the original release and produces a smallish alpine-based image.
-To persist the settings, mount a volume to /data. For example:
+# NATS WebUI
 
-```
-mkdir ./nats-webui && chown 1000:1000
-docker run --rm -p 8080:80 -v "${PWD}/nats-webui:/data" ghcr.io/thielj/nats-webui:latest
+A web interface for monitoring and interacting with NATS messaging system.
+
+## Setup Guide (Windows)
+
+### Prerequisites
+- Docker installed
+- Git repository cloned
+
+### Step 1: Run NATS Server
+```powershell
+docker run --name nats-server -p 4222:4222 -p 8222:8222 nats:latest
 ```
 
-Original README follows...
+### Step 2: Build NATS WebUI Docker Image
+```powershell
+docker build -t nats-webui:latest .
+```
+
+### Step 3: Create Data Directory
+```powershell
+mkdir nats-webui
+```
+
+### Step 4: Run NATS WebUI Container
+```powershell
+docker run --rm -p 8080:8600 -v "${PWD}/nats-webui:/data" nats-webui
+```
+
+The WebUI will now be accessible at http://localhost:8080
+
+## Connection Tips
+
+To get the Docker container IP address (useful for connecting to NATS server):
+```powershell
+docker inspect -f '{{.Name}} - {{.NetworkSettings.IPAddress }}' $(docker ps -aq)
+```
+
+For monitoring NATS connections:
+```powershell
+Invoke-RestMethod -Uri "http://localhost:8222/connz?json=true" | ConvertTo-Json
+```
+
+## Troubleshooting
+
+### Missing Host Field Error
+
+When encountering:
+```
+Failed to fetch varz: reqwest::Error { kind: Decode, source: Error("missing field `host`") }
+```
+
+The issue was resolved by updating the `ServerVarz` struct in `datatypes.rs` to properly match the actual JSON structure returned by the NATS server monitoring endpoint.
+
+Check varz
+```powershell
+Invoke-RestMethod -Uri "http://localhost:8222/varz?json=true" | ConvertTo-Json
+```
+
+### Note About WebUI Clients
+
+WebUI client connections may not appear in standard `connz` monitoring endpoints, which is expected behavior (not sure what is the fix).
+
+## Publishing Test Messages
+
+To publish messages to subjects that WebUI clients are subscribed to:
+```
+nats pub [subject] [message]
+```
+
+
+# Original README follows...
 
 ---
 
