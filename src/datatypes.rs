@@ -43,15 +43,8 @@ impl NatsServer {
             .send()
             .await?;
 
-        response.error_for_status_ref()?;
-
-        let json_text = response.text().await?;
-        debug!("Raw VARZ JSON: {}", json_text);
-
-        let varz: ServerVarz = serde_json::from_str(&json_text).map_err(|e| {
-            error!("Failed to parse VARZ JSON: {:?}", e);
-            VarzError::from(e)
-        })?;
+        let varz: ServerVarz = serde_json::from_str(&response.text().await?)
+            .map_err(|e| VarzError::JsonError(e))?;
 
         Ok(VarzBroadcastMessage {
             server_id: id,
@@ -97,7 +90,7 @@ pub struct Publication {
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq)]
 pub struct ServerVarz {
     pub server_id: String,
-    pub server_name: Option<String>,
+    pub server_name: String,
     pub version: String,
     pub proto: i32,
     pub go: String,
@@ -108,6 +101,7 @@ pub struct ServerVarz {
     pub ping_max: i64,
     pub http_host: String,
     pub http_port: u16,
+    pub http_base_path: String,
     pub https_port: u16,
     pub auth_timeout: i64,
     pub max_control_line: i64,
@@ -115,16 +109,16 @@ pub struct ServerVarz {
     pub max_pending: i64,
     #[serde(default)]
     pub cluster: Option<ClusterInfo>,
-    #[serde(default)]
-    pub gateway: Option<serde_json::Value>,
-    #[serde(default)]
-    pub leaf: Option<serde_json::Value>,
-    #[serde(default)]
-    pub mqtt: Option<MqttConfig>,
-    #[serde(default)]
-    pub websocket: Option<serde_json::Value>,
-    #[serde(default)]
-    pub jetstream: Option<JetstreamConfig>,
+    // #[serde(default)]
+    // pub gateway: Option<serde_json::Value>,
+    // #[serde(default)]
+    // pub leaf: Option<serde_json::Value>,
+    // #[serde(default)]
+    // pub mqtt: Option<MqttConfig>,
+    // #[serde(default)]
+    // pub websocket: Option<serde_json::Value>,
+    // #[serde(default)]
+    // pub jetstream: Option<JetstreamConfig>,
     pub tls_timeout: f64,
     pub write_deadline: i64,
     pub start: String,
@@ -147,6 +141,7 @@ pub struct ServerVarz {
     pub subscriptions: i64,
     pub http_req_stats: HttpReqStats,
     pub config_load_time: String,
+    pub config_digest: String,
     #[serde(default)]
     pub system_account: Option<String>,
     pub slow_consumer_stats: Option<SlowConsumerStats>,
@@ -154,7 +149,7 @@ pub struct ServerVarz {
     pub git_commit: Option<String>,
 }
 
-#[derive(Clone, Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Default, Clone, Serialize, Deserialize, Debug, PartialEq)]
 pub struct ClusterInfo {
     #[serde(default)]
     pub addr: Option<String>,
@@ -187,7 +182,7 @@ pub struct JetstreamConfig {
     pub stats: JetstreamStats,
 }
 
-#[derive(Clone, Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Default,Clone, Serialize, Deserialize, Debug, PartialEq)]
 pub struct JetstreamServerConfig {
     pub max_memory: i64,
     pub max_storage: i64,
